@@ -5,7 +5,6 @@ import { Button } from "reactstrap";
 const MovieCard = props => {
 	const { id, title, director, metascore, stars } = props.movie;
 
-	//why is this getting deleted only when refreshing page
 	return (
 		<div className="movie-card">
 			<h2>{title}</h2>
@@ -17,13 +16,13 @@ const MovieCard = props => {
 			</div>
 			<h3>Actors</h3>
 
-			{/* {stars.map(star => (
+			{stars.map(star => (
 				<div key={star} className="movie-star">
 					{star}
 				</div>
-			))} */}
+			))}
 
-			<Link to={`/update-movie/${id}?${stars}`}>
+			<Link to={`/update-movie/${id}`}>
 				<Button color="primary">Update Movie</Button>
 			</Link>
 			<br></br>

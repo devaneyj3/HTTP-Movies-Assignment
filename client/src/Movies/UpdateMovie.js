@@ -1,107 +1,74 @@
 import React, { useState } from "react";
-import Axios from "axios";
-import {
-	Col,
-	Button,
-	Form,
-	FormGroup,
-	Label,
-	Input,
-	FormText
-} from "reactstrap";
+import axios from "axios";
 
 const UpdateMovie = props => {
 	const [data, setData] = useState({
+		id: "",
 		title: "",
 		director: "",
-		metascore: ""
+		metascore: "",
+		stars: ""
 	});
-	//get actors out of search params and make an array
-	const { search } = props.location;
-	const actorsArr = search.substring(1, search.length).split(",");
-	console.log(actorsArr);
-
-	const pathId = props.match.params.id;
+	const [message, setMessage] = useState("");
+	const [updated, setUpdated] = useState(false);
 
 	const update = e => {
 		setData({ ...data, [e.target.name]: e.target.value });
 	};
 
-	const submit = e => {
+	const { id } = props.match.params;
+	const submit = (e, props) => {
 		e.preventDefault();
+		data.stars = data.stars.split(/,/g);
+		data.metascore = parseInt(data.metascore);
+		data.id = parseInt(id);
 		console.log(data);
-		Axios.put(`http://localhost:5000/api/movies/${pathId}`, data)
-			.then(res => props.setMovieList(res.data))
-			.catch(err => console.error(err));
-		props.history.push("/");
+		axios
+			.put(`http://localhost:5000/api/movies/${id}`, data)
+			.then(res => {
+				console.log(res.data);
+				setMessage("You Have Updated this title");
+				setUpdated(true);
+			})
+			.catch(err => {
+				console.error(err);
+				setMessage("There was an error updated this title. Try again");
+				setUpdated(false);
+			});
 	};
 	return (
 		<>
-			<Form onClick={submit}>
-				<FormGroup row>
-					<Label for="title" sm={2}>
-						Title
-					</Label>
-					<Col sm={10}>
-						<Input
-							type="text"
-							name="title"
-							value={data.title}
-							onChange={update}
-							placeholder="New Title"
-						/>
-					</Col>
-				</FormGroup>
-				<FormGroup row>
-					<Label for="director" sm={2}>
-						Director
-					</Label>
-					<Col sm={10}>
-						<Input
-							ttype="text"
-							name="director"
-							value={data.director}
-							onChange={update}
-							placeholder="New Director"
-						/>
-					</Col>
-				</FormGroup>
-				<FormGroup row>
-					<Label for="metascore" sm={2}>
-						Metascore
-					</Label>
-					<Col sm={10}>
-						<Input
-							type="text"
-							name="metascore"
-							value={data.metascore}
-							onChange={update}
-							placeholder="New Metascore"
-						/>
-					</Col>
-				</FormGroup>
-				{actorsArr.map(stars => {
-					return (
-						<FormGroup row>
-							<Label for="stars" sm={2}>
-								Stars
-							</Label>
-							<Col sm={10}>
-								<Input
-									type="text"
-									name="stars"
-									value={stars}
-									onChange={update}
-									placeholder="New Stars"
-								/>
-							</Col>
-						</FormGroup>
-					);
-				})}
-			</Form>
-			<Button color="success" type="submit">
-				Update Movie info
-			</Button>
+			{message ? <p>{message}</p> : null}
+			<form onSubmit={submit}>
+				<input
+					type="text"
+					name="title"
+					value={data.title}
+					onChange={update}
+					placeholder="New Title"
+				/>
+				<input
+					type="text"
+					name="director"
+					value={data.director}
+					onChange={update}
+					placeholder="New Director"
+				/>
+				<input
+					type="number"
+					name="metascore"
+					value={data.metascore}
+					onChange={update}
+					placeholder="New Metascore"
+				/>
+				<textarea
+					name="stars"
+					value={data.stars}
+					onChange={update}
+					placeholder="New Stars"
+				/>
+				<input type="submit" />
+			</form>
 		</>
 	);
 };
