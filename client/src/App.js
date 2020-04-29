@@ -17,6 +17,12 @@ const App = () => {
 			.catch(err => console.log(err.response));
 	};
 
+	const deleteMovie = id => {
+		axios
+			.delete(`http://localhost:5000/api/movies/${id}`)
+			.then(res => setMovieList(res.data));
+	};
+
 	const addToSavedList = movie => {
 		setSavedList([...savedList, movie]);
 	};
@@ -33,7 +39,7 @@ const App = () => {
 				exact
 				path="/"
 				render={props => (
-					<MovieList {...props} movies={movieList} setMovie={setMovieList} />
+					<MovieList movies={movieList} deleteMovie={deleteMovie} />
 				)}></Route>
 
 			<Route path="/movies/:id">
@@ -41,7 +47,9 @@ const App = () => {
 			</Route>
 			<Route
 				path="/update-movie/:id"
-				render={props => <UpdateMovie {...props} />}></Route>
+				render={props => (
+					<UpdateMovie {...props} setMovieList={setMovieList} />
+				)}></Route>
 		</>
 	);
 };

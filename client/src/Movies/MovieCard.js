@@ -1,19 +1,9 @@
 import React from "react";
-import { Link, Route, Redirect } from "react-router-dom";
-import UpdateMovie from "./UpdateMovie";
-import Axios from "axios";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MovieCard = props => {
 	const { id, title, director, metascore, stars } = props.movie;
-	let history = useHistory();
 
-	const deleteMovie = () => {
-		Axios.delete(`http://localhost:5000/api/movies/${id}`).then(res =>
-			console.log(res.data)
-		);
-		history.push("/");
-	};
 	//why is this getting deleted only when refreshing page
 	return (
 		<div className="movie-card">
@@ -35,7 +25,7 @@ const MovieCard = props => {
 			<Link to={`/update-movie/${id}?${stars}`}>
 				<p>Update Movie</p>
 			</Link>
-			<button onClick={deleteMovie}>Delete</button>
+			<button onClick={props.deleteMovie}>Delete</button>
 		</div>
 	);
 };

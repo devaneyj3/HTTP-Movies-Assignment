@@ -6,7 +6,10 @@ function MovieList(props) {
 	return (
 		<div className="movie-list">
 			{props.movies.map(movie => (
-				<MovieCard movie={movie} setMovies={props.setMovies} />
+				<MovieCard
+					movie={movie}
+					deleteMovie={() => props.deleteMovie(movie.id)}
+				/>
 			))}
 		</div>
 	);
