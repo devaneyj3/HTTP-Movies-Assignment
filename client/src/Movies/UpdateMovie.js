@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import {
+	Col,
+	Button,
+	Form,
+	FormGroup,
+	Label,
+	Input,
+	FormText
+} from "reactstrap";
 
 const UpdateMovie = props => {
 	const [data, setData] = useState({
@@ -27,41 +36,73 @@ const UpdateMovie = props => {
 		props.history.push("/");
 	};
 	return (
-		<form onSubmit={submit}>
-			<input
-				type="text"
-				name="title"
-				value={data.title}
-				onChange={update}
-				placeholder="New Title"
-			/>
-			<input
-				type="text"
-				name="director"
-				value={data.director}
-				onChange={update}
-				placeholder="New Director"
-			/>
-			<input
-				type="text"
-				name="metascore"
-				value={data.metascore}
-				onChange={update}
-				placeholder="New Metascore"
-			/>
-			{actorsArr.map(stars => {
-				return (
-					<input
-						type="text"
-						name="stars"
-						value={stars}
-						onChange={update}
-						placeholder="New Stars"
-					/>
-				);
-			})}
-			<input type="submit" />
-		</form>
+		<>
+			<Form onClick={submit}>
+				<FormGroup row>
+					<Label for="title" sm={2}>
+						Title
+					</Label>
+					<Col sm={10}>
+						<Input
+							type="text"
+							name="title"
+							value={data.title}
+							onChange={update}
+							placeholder="New Title"
+						/>
+					</Col>
+				</FormGroup>
+				<FormGroup row>
+					<Label for="director" sm={2}>
+						Director
+					</Label>
+					<Col sm={10}>
+						<Input
+							ttype="text"
+							name="director"
+							value={data.director}
+							onChange={update}
+							placeholder="New Director"
+						/>
+					</Col>
+				</FormGroup>
+				<FormGroup row>
+					<Label for="metascore" sm={2}>
+						Metascore
+					</Label>
+					<Col sm={10}>
+						<Input
+							type="text"
+							name="metascore"
+							value={data.metascore}
+							onChange={update}
+							placeholder="New Metascore"
+						/>
+					</Col>
+				</FormGroup>
+				{actorsArr.map(stars => {
+					return (
+						<FormGroup row>
+							<Label for="stars" sm={2}>
+								Stars
+							</Label>
+							<Col sm={10}>
+								<Input
+									type="text"
+									name="stars"
+									value={stars}
+									onChange={update}
+									placeholder="New Stars"
+								/>
+							</Col>
+						</FormGroup>
+					);
+				})}
+			</Form>
+			<Button color="success" type="submit">
+				Update Movie info
+			</Button>
+		</>
 	);
 };
 

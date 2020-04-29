@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Button } from "reactstrap";
 
 const MovieCard = props => {
 	const { id, title, director, metascore, stars } = props.movie;
@@ -23,9 +24,13 @@ const MovieCard = props => {
 			))} */}
 
 			<Link to={`/update-movie/${id}?${stars}`}>
-				<p>Update Movie</p>
+				<Button color="primary">Update Movie</Button>
 			</Link>
-			<button onClick={props.deleteMovie}>Delete</button>
+			<br></br>
+			<br></br>
+			<Button color="danger" onClick={props.deleteMovie}>
+				Delete
+			</Button>
 		</div>
 	);
 };

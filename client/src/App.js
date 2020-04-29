@@ -5,6 +5,7 @@ import MovieList from "./Movies/MovieList";
 import Movie from "./Movies/Movie";
 import axios from "axios";
 import UpdateMovie from "./Movies/UpdateMovie";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
 	const [savedList, setSavedList] = useState([]);
