@@ -22,7 +22,7 @@ const MovieCard = props => {
 				</div>
 			))}
 
-			<Link to={`/update-movie/${id}`}>
+			<Link to={`/update-movie/${id}${title}`}>
 				<Button color="primary">Update Movie</Button>
 			</Link>
 			<br></br>

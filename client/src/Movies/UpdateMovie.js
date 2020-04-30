@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Alert } from "reactstrap";
 
 const UpdateMovie = props => {
 	const [data, setData] = useState({
@@ -17,18 +18,25 @@ const UpdateMovie = props => {
 	};
 
 	const { id } = props.match.params;
-	const submit = (e, props) => {
+	const { title } = props.match.params;
+	const submit = e => {
 		e.preventDefault();
+		//data.stars = 'Mark Wahlburg, Will Ferrel
 		data.stars = data.stars.split(/,/g);
+		//data.stars = ['Mark Wahlburg, "Will Ferrel"]
 		data.metascore = parseInt(data.metascore);
 		data.id = parseInt(id);
-		console.log(data);
 		axios
 			.put(`http://localhost:5000/api/movies/${id}`, data)
 			.then(res => {
-				console.log(res.data);
-				setMessage("You Have Updated this title");
+				props.setMovieList(res.data);
+				setMessage(
+					"You Have Updated this title. It will take a few seconds to redirect."
+				);
 				setUpdated(true);
+				setTimeout(() => {
+					redirect();
+				}, 3000);
 			})
 			.catch(err => {
 				console.error(err);
@@ -36,9 +44,18 @@ const UpdateMovie = props => {
 				setUpdated(false);
 			});
 	};
+
+	const redirect = () => {
+		props.history.push("/");
+	};
 	return (
 		<>
-			{message ? <p>{message}</p> : null}
+			{message ? (
+				<Alert color={updated ? "success" : "danger"}>{message}</Alert>
+			) : (
+				<Alert color="info">You are editing for the movie: {title}</Alert>
+			)}
+
 			<form onSubmit={submit}>
 				<input
 					type="text"
